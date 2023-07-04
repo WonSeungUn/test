@@ -20,9 +20,12 @@
             const result = await fetch(pageno);
             console.log(result);
             printContacts(result);
+            const pagination = getPagination(result);
+            console.log(pagination);
+            printPagination(pagination);
             
-
-        })
+            
+        });
     </script>
 </head>
 <body>
@@ -42,6 +45,7 @@
         </table>
         <ul class="pagination" id="pagination" style="display: flex; justify-content: center;">
 
+            
         </ul>
     </div>
 </body>

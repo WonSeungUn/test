@@ -28,4 +28,51 @@ function printContacts({contacts}) {
         `;
         $tbody.append(html);
     }
-}
+};
+
+function getPagination({pageno, pagesize, totalcount, blocksize=5}) {
+    const countOfpage = Math.ceil(totalcount/pagesize);
+   
+    const prev = Math.floor((pageno-1)/blocksize) * blocksize ;
+    const start = prev + 1;
+    let end = prev + blocksize;
+    let next = end + 1;
+    if(end >=countOfpage) {
+        end = countOfpage;
+        next = 0;
+    }
+    return {prev, start, end, next, pageno};
+
+};
+
+// 구조분해할당
+function printPagination ({prev, start, end, next, pageno}) {
+    const $pagination = $('#pagination');
+    if(prev > 0) {
+        const html = `
+        <li class="page-item">
+        <a class="page-link" href="list.html?pageno=${prev}">Previous</a>
+        </li>
+        `;
+        $pagination.append(html);
+    };
+
+    for(let i =start ; i <= end ; i++) {
+        let li_class = i===pageno? 'page-item active' : 'page-item';
+        const html =`
+        <li class="${li_class}">
+        <a class="page-link" href="list.html?pageno=${i}">${i}</a>
+        </li>
+        `;
+        $pagination.append(html);
+    };
+
+    if(next >0) {
+        const html = `
+        <li class="page-item">
+        <a class="page-link" href="list.html?pageno=${next}">Next</a>
+        </li>
+        `;
+        $pagination.append(html);
+    };
+};
