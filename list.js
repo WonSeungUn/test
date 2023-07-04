@@ -2,7 +2,9 @@ const API = 'http://sample.bmaster.kro.kr/contacts';
 
 function getPageno() {
     const params = new URLSearchParams(location.search);
-    return params.get('pageno') === null? 1: params.get('pageno');
+    const paramsno = params.get('pageno');
+    const pageno = parseInt(paramsno);
+    return (isNaN(pageno) || pageno < 1 || pageno === null) ? 1: paramsno;
 };
 
 async function fetch (pageno, pagesize = 10) {
@@ -32,7 +34,6 @@ function printContacts({contacts}) {
 
 function getPagination({pageno, pagesize, totalcount, blocksize=5}) {
     const countOfpage = Math.ceil(totalcount/pagesize);
-   
     const prev = Math.floor((pageno-1)/blocksize) * blocksize ;
     const start = prev + 1;
     let end = prev + blocksize;
@@ -42,7 +43,6 @@ function getPagination({pageno, pagesize, totalcount, blocksize=5}) {
         next = 0;
     }
     return {prev, start, end, next, pageno};
-
 };
 
 // 구조분해할당
